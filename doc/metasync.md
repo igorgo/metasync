@@ -1,17 +1,3 @@
-# Asynchronous Programming Library
-
-[![TravisCI](https://travis-ci.org/metarhia/metasync.svg?branch=master)](https://travis-ci.org/metarhia/metasync)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/60fe108b31614b4191cd557d49112169)](https://www.codacy.com/app/metarhia/metasync)
-[![NPM Version](https://badge.fury.io/js/metasync.svg)](https://badge.fury.io/js/metasync)
-[![NPM Downloads/Month](https://img.shields.io/npm/dm/metasync.svg)](https://www.npmjs.com/package/metasync)
-[![NPM Downloads](https://img.shields.io/npm/dt/metasync.svg)](https://www.npmjs.com/package/metasync)
-
-## Installation
-
-```bash
-$ npm install metasync
-```
-
 ## API
 
 ### Interface: metasync
@@ -34,18 +20,6 @@ const composed = metasync(
   [f1, f2, f3, [[f4, f5, [f6, f7], f8]], f9]
 );
 ```
-
-
-![composition](https://cloud.githubusercontent.com/assets/4405297/16968374/1b81f160-4e17-11e6-96fa-9d7e2b422396.png)
-
-
-### Composed methods:
-- `composed([data], callback)` - async composed, callback-last and err-first contracts
-- `composed.timeout(msec)` - set timeout
-- `composed.cancel()` - calcel execution where possible
-- `composed.clone()` - clone composed
-- `composed.pause()` - pause execution
-- `composed.resume()` - resume execution
 
 
 #### firstOf(fns, callback)
@@ -420,47 +394,6 @@ Create an ArrayChain instance
 Collector instance constructor
 
 
-Collector instance constructor
-
-
-### Collector methods:
-- `collector.collect(key, error, value)` - pick or fail
-- `collector.pick(key, value)` - pick a key
-- `collector.fail(key, error)` - fail a key
-- `collector.take(key, method, ...arguments)` - take method result
-- `collector.timeout(msec)` - set timeout
-- `collector.done(callback)` - set done listener with err-first contract
-- `collector.distinct(true/false)` - deny unlisted keys
-
-*Example:*
-```js
-const metasync = require('metasync');
-const fs = require('fs');
-
-// Data collector (collect keys by count)
-const dc = metasync.collect(4);
-
-dc.pick('user', { name: 'Marcus Aurelius' });
-fs.readFile('HISTORY.md',
-  (err, data) => dc.collect('history', err, data)
-);
-dc.take('readme', fs.readFile, 'README.md');
-setTimeout(() => dc.pick('timer', { date: new Date() }), 1000);
-
-// Key collector (collect certain keys by names)
-const kc = metasync
-  .collect(['user', 'history', 'readme', 'timer'])
-  .timeout(2000)
-  .distinct()
-  .done((err, data) => console.log(data));
-
-kc.pick('user', { name: 'Marcus Aurelius' });
-kc.take('history', fs.readFile, 'HISTORY.md');
-kc.take('readme', fs.readFile, 'README.md');
-setTimeout(() => kc.pick('timer', { date: new Date() }), 1000);
-```
-
-
 #### queue(concurrency)
 
   - `concurrency: `[`<number>`] simultaneous and asynchronously executing tasks
@@ -489,12 +422,6 @@ Create memoized function
 
 #### poolify()
 
-
-
-## Contributors
-
-  - Timur Shemsedinov (marcusaurelius)
-  - See github for full [contributors list](https://github.com/metarhia/metasync/graphs/contributors)
 
 
 [`<Object>`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object
